@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true,
         },
       },
-      birthDate: {
+      birtDate: { 
         type: DataTypes.DATE,
         allowNull: false,
       },
@@ -40,37 +40,37 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  // User.associate = (models) => {
-  //   User.hasMany(models.Plan, {
-  //     allowNull: false,
+  User.associate = (models) => {
+    User.hasMany(models.Plan, {
+      allowNull: false,
 
-  //     onDelete: "RESTRICT",
-  //     onUpdate: "RESTRICT",
-  //   });
-  //   User.hasMany(models.UserReccord, {
-  //     foreignKey: {
-  //       name: "requestToId",
-  //       allowNull: false,
-  //       // field: 'request_to'
-  //     },
-  //     onDelete: "RESTRICT",
-  //     onUpdate: "RESTRICT",
-  //   });
-  //   User.hasMany(models.ContentPost, {
-  //     allowNull: false,
-  //     // field: 'request_from'
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT",
+    });
+    User.hasMany(models.UserReccord, {
+      foreignKey: {
+        name: "requestToId",
+        allowNull: false,
+        // field: 'request_to'
+      },
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT",
+    });
+    User.hasMany(models.ContentPost, {
+      allowNull: false,
+      // field: 'request_from'
 
-  //     onDelete: "RESTRICT",
-  //     onUpdate: "RESTRICT",
-  //   });
-  //   User.hasMany(models.VideoPost, {
-  //     allowNull: false,
-  //     // field: 'request_from'
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT",
+    });
+    User.hasMany(models.VideoPost, {
+      allowNull: false,
+      // field: 'request_from'
 
-  //     onDelete: "RESTRICT",
-  //     onUpdate: "RESTRICT",
-  //   });
-  // };
+      onDelete: "RESTRICT",
+      onUpdate: "RESTRICT",
+    });
+  };
 
   return User;
 };
