@@ -18,11 +18,10 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true,
         },
       },
-      birtDate: { 
+      birtDate: {
         type: DataTypes.DATE,
         allowNull: false,
       },
-      profileImg: DataTypes.STRING,
 
       password: {
         type: DataTypes.STRING,
@@ -37,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       underscored: true,
+    },
+    {
+      tablename: "users",
     }
   );
 
@@ -69,6 +71,12 @@ module.exports = (sequelize, DataTypes) => {
 
       onDelete: "RESTRICT",
       onUpdate: "RESTRICT",
+    });
+    User.hasMany(models.UserContentReccord, {
+      allowNull: false,
+    });
+    User.hasMany(models.UserReccordVideo, {
+      allowNullL: false,
     });
   };
 

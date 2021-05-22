@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       underscored: true,
+    },
+    {
+      tablename: "content-posts",
     }
   );
 

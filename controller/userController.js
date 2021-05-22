@@ -1,7 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { User, UserContentReccord, UserVideoReccord } = require("../models");
-const { ContentPost, VideoPost } = require("../models");
+const { User } = require("../models");
 
 exports.protect = async (req, res, next) => {
   try {
@@ -28,17 +27,29 @@ exports.protect = async (req, res, next) => {
 exports.register = async (req, res, next) => {
   try {
     const {
-      firstName,
-      lastName,
       email,
-      birthDate,
       password,
       confirmPassword,
-      profileImg,
-      role,
+      firstName,
+      birthDate,
+      lastName,
+      userType,
     } = req.body;
+    if (!firstName)
+      return res.status(400).json({ message: "Firstname is required" });
+    if (!lastName)
+      return res.status(400).json({ message: "Lastname is required" });
+    if (!email) return res.status(400).json({ message: "email is required" });
+
+    if (!birthDate)
+      return res.status(400).json({ message: "birthDate is required" });
+    if (!password)
+      return res.status(400).json({ message: "password is required" });
+    if (!confirmPassword)
+      return res.status(400).json({ message: "confirm password is required" });
     if (password !== confirmPassword)
-      return res.status(400).json({ message: "password not match" });
+      return res.status(400).json({ message: "password is not match" });
+
     const hashedPassword = await bcrypt.hash(
       password,
       +process.env.BCRYPT_SALT
@@ -47,10 +58,9 @@ exports.register = async (req, res, next) => {
       email,
       firstName,
       lastName,
-      birthDate,
       password: hashedPassword,
-      profileImg,
-      role,
+      birthDate,
+      userType,
     });
 
     const payload = { id: user.id, email, firstName, lastName };
@@ -89,86 +99,6 @@ exports.login = async (req, res, next) => {
       expiresIn: +process.env.JWT_EXPIRES_IN,
     });
     res.status(200).json({ token });
-  } catch (err) {
-    next(err);
-  }
-};
-
-// exports.updateUser = async (req, res, next) => {
-//   try {
-//     const { firstName, lastName, motto, location } = req.body;
-
-//     // req.user.idfirstName = firstName;
-//     // req.user.lastName = lastName;
-//     // req.user.motto = motto;
-//     // req.user.location = location;
-//     // await req.user.save();
-
-//     await User.update(
-//       { firstName, lastName, motto, location },
-//       { where: { id: req.user.id } }
-//     );
-//     res.status(200).json({ message: "update user success" });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-exports.getAllVideos = async (req, res, next) => {
-  try {
-    const videos = await VideoPost.findAll();
-    res.status(200).json({ videos });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.getVideo = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const video = await VideoPost.findOne({
-      where: { id: id },
-    });
-    res.status(200).json({ video });
-  } catch (err) {
-    next(err);
-  }
-};
-
-//--
-exports.getAllContents = async (req, res, next) => {
-  try {
-    const contents = await ContentPost.findAll();
-    res.status(200).json({ contents });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.getContent = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const content = await ContentPost.findOne({
-      where: { id: id },
-    });
-    res.status(200).json({ content });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.getAllVideosFromHistory = async (req, res, next) => {
-  try {
-    const videos = await VideoPost.findAll();
-    res.status(200).json({ getAllVideosFromHistory });
-  } catch (err) {
-    next(err);
-  }
-};
-exports.getAllVideosFromLike = async (req, res, next) => {
-  try {
-    const videos = await VideoPost.findAll();
-    res.status(200).json({ getAllVideosFromHistory });
   } catch (err) {
     next(err);
   }

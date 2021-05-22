@@ -1,36 +1,31 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "User",
+  const UserReccord = sequelize.define(
+    "UserReccord",
     {
-      firstName: {
+      totalFast: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      lastName: {
+      WeeklyFastAvg: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      email: {
+      longestFast: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
-        validate: {
-          isEmail: true,
-        },
       },
-      birthDate: {
+      longestStreak: {
         type: DataTypes.DATE,
         allowNull: false,
       },
 
-      password: {
+      currentStreak: {
         type: DataTypes.STRING,
         allowNull: false,
       },
 
-      userType: {
-        type: DataTypes.ENUM,
-        values: ["ADMIN", "USER"],
+      totalHour: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
     },
@@ -39,5 +34,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  return User;
+  return UserReccord;
 };
